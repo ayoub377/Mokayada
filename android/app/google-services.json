@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "267367196597",
+    "project_id": "bartering-site",
+    "storage_bucket": "bartering-site.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267367196597:android:8fd92c3d2fd7167fe91bfc",
+        "android_client_info": {
+          "package_name": "com.mokayada.mokayada"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267367196597-1fh9ol9u1cl4a0ho1sb0c8kh7sb278cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtYU0dJNaC15kiA31N0B0o5yE1W7oYRGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267367196597-1fh9ol9u1cl4a0ho1sb0c8kh7sb278cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
