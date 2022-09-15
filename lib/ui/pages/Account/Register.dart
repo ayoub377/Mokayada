@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:mokayada/ui/pages/home.page.dart';
-
 import '../../../service/FirebaseService.dart';
 import 'Done.dart';
+
+
 // ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
   static String id = '/RegisterPage';
@@ -19,12 +20,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String name='';
   String email='';
   String password='';
-
   bool _showSpinner = false;
-
   bool _wrongEmail = false;
   bool _wrongPassword = false;
-
   String _emailText = 'Please use a valid email';
   String _passwordText = 'Please use a strong password';
 
@@ -43,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  top: 60.0, bottom: 20.0, left: 20.0, right: 20.0),
+                  top: 60.0, bottom: 20.0, left: 20.0, right: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,6 +103,37 @@ class _RegisterPageState extends State<RegisterPage> {
                       'Register',
                       style: TextStyle(fontSize: 25.0, color: Colors.white),
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RaisedButton(
+                          padding: EdgeInsets.symmetric(vertical: 5.0),
+                          color: Colors.white,
+                          shape: ContinuousRectangleBorder(
+                            side:
+                            BorderSide(width: 0.5, color: Colors.grey),
+                          ),
+                          onPressed: () {
+                            _firebaseService.Google_handle_signIn();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/google.png',
+                                  fit: BoxFit.contain,
+                                  width: 20.0,
+                                  height: 20.0),
+                              Text(
+                                'Google',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

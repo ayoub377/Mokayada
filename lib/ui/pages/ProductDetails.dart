@@ -1,108 +1,156 @@
 import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-
-
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 class ProductDetails extends StatefulWidget {
-
-  final String id_prod;
-  const ProductDetails(this.id_prod);
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  dynamic data;
-  dynamic data2_images;
-  
+  var current = 0;
+  CarouselController controller = CarouselController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = CarouselController();
+  }
+
+  void animateToPage(int index)=>controller.animateToPage(index);
 
   @override
   Widget build(BuildContext context) {
-    _Fetch();
+    final data = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as Map<String, dynamic>;
     return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Details produit"),
-        ),
-       body: ListView(
-          children: <Widget>[
-
-            Container(
-              height: 100,
-              width: 300,
-                child: Column(
-                  children: <Widget>[
-                    Text(data["name"],style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Text(data["description"], style: TextStyle(fontSize: 20),),
-                    ),
-                  ],
-                ),
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("Details produit"),
             ),
-            Container(
-              height: 300,
-              margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              child: CarouselSlider.builder(
-                  unlimitedMode: true,
-                  slideBuilder: (index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Image.network(
-                        data2_images[index],
+            body: SingleChildScrollView(
+              child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:
+                        [
+                             Text(data['name'], style: TextStyle(fontStyle: FontStyle.normal, fontSize: 22),),
+                        ]
                       ),
-                    );
-                  },
-                  slideTransform: CubeTransform(),
-                  slideIndicator: CircularSlideIndicator(
-                    padding: EdgeInsets.only(bottom: 32),
-                  ),
-                  itemCount: data2_images.length),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: Align(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 240, maxWidth: 600),
-                ),
+                    ),
+                    // Container(
+                    //    height: MediaQuery.of(context).size.height * 0.5,
+                    //   child: Card(
+                    //      child: Image.network(data['images'][0]),
+                    //    ),
+                    // ),
+                    Card(
+                      elevation: 5,
+                      child: CarouselSlider(
+                        carouselController: controller,
+                        options: CarouselOptions(
+                          initialPage: 0,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              current = index;
+                            });
+                          },
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height / 4,
+                          enableInfiniteScroll: false,),
+                        items: (data['images'].length > 0) ? data['images'].map<
+                            Widget?>((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.amber
+                                  ),
+                                  child: Image.network(i, fit: BoxFit.fill,)
+                              );
+                            },
+                          );
+                        }).toList() : [
+                          Image.asset(
+                            'assets/images/empty.jpg', fit: BoxFit.cover,),
+                          Image.asset('assets/images/empty.jpg'),
+                          Image.asset('assets/images/empty.jpg')
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AnimatedSmoothIndicator(
+                          activeIndex: current, count: data['images'].length,onDotClicked: animateToPage,),
+                    ),
+                    if(data['price']!=null)
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                        child: Text(data['price'].toString() + " DH", style: TextStyle(
+                            fontStyle: FontStyle.normal, fontSize: 22),),
+                      ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * .2,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Card(
+                          elevation: 5,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Text(data['description'], style: TextStyle(
+                                fontStyle: FontStyle.normal, fontSize: 18),),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(data['date'], style: TextStyle(
+                              fontStyle: FontStyle.normal, fontSize: 18),),
+                          Text(data['user'], style: TextStyle(
+                              fontStyle: FontStyle.normal, fontSize: 18),),
+                        ],
+                      ),
+                    ),
+
+                  ]
               ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child:Column(
-                children: <Widget>[
-                  Text("annonce par:"),
-                  Text(data["profile_name"][0], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                  Text(DateTime.parse(data["created_on"]).toString(), style: TextStyle(fontSize: 20),),
-                ],
-              ),
-              )
-          ],
-        ),
-
-
-
-
-
-      ),
+            )
+        )
     );
   }
 
-  void _Fetch() {
-    String url = "http://10.0.2.2:8000/api/product/${widget.id_prod}";
-    http.get(Uri.parse(url)).then((response) {
-      setState(() {
-        data = json.decode(response.body);
-        data2_images = [data["image1"], data["image2"], data["image3"]];
-      });
-    });
-  }
-
 }
+

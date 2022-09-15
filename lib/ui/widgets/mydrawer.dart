@@ -11,7 +11,7 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          DrawerHeader(
+          const DrawerHeader(
             decoration: BoxDecoration(
               gradient:LinearGradient(
                 begin: Alignment.topCenter,
@@ -40,13 +40,6 @@ class MyDrawer extends StatelessWidget {
             title: Text('Home'),
             onTap: (){
               Navigator.pushNamed(context, '/');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.star),
-            title: Text('Top Produits'),
-            onTap: (){
-              Navigator.pushNamed(context, '/topproduits');
             },
           ),
           ListTile(

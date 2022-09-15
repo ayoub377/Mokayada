@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../../service/FirebaseService.dart';
+import 'CategoryDetails.dart';
 
 
 class Categories extends StatefulWidget {
@@ -32,35 +33,66 @@ class _CategoriesState extends State<Categories> {
             ),
           );
         }
-
         return Scaffold(
           appBar: AppBar(
               title:Text("Categories")),
-          body: Container(
-              margin: EdgeInsets.fromLTRB(10, 30, 30, 0),
-              child: SizedBox(
-                height: 300,
-                child: ListView.builder(
-                    itemCount:snapshot.data?.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var doc = snapshot.data?.docs[index];
-                      return Card(
-                          child:  ListTile(
-                              leading: Image.network(doc!['image']),
-                              title: Text(doc['name']),
-                              onTap: () {
+          body: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+                margin: EdgeInsets.fromLTRB(60, 30, 30, 0),
+                  child: ListView.builder(
+                      itemCount:snapshot.data?.docs.length,
+                      itemBuilder: (BuildContext context, int index)
+                      {
+                        var doc = snapshot.data?.docs[index];
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryDetails(categoryname: doc!.get('name'))));
+                            },
+                            child: Stack(
+                              children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Card(
+                                          child: Container(
+                                            width: 200,
+                                            height: 200,
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                gradient: LinearGradient(
+                                                    colors: <Color>[
+                                                      Color(0xFF77A1D3),
+                                                      Color(0xFF79CBCA),
+                                                      Color(0xFFE684AE),
+                                                    ]
+                                                )
 
-                              },
+                                            ),
+                                          ),
+                                      ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(80, 100, 20, 20),
+                                    child: Text(doc?.get('name'),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
+                          ),
                         );
-                    }
 
-                ),
-              )
-          ),
-
+                      }
+                  ),
+                )
+            ),
         );
-
       },
     );
   }
