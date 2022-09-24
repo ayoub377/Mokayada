@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../widgets/dialog_image.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -49,12 +49,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ]
                       ),
                     ),
-                    // Container(
-                    //    height: MediaQuery.of(context).size.height * 0.5,
-                    //   child: Card(
-                    //      child: Image.network(data['images'][0]),
-                    //    ),
-                    // ),
+
                     Card(
                       elevation: 5,
                       child: CarouselSlider(
@@ -72,7 +67,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               .height / 4,
                           enableInfiniteScroll: false,),
                         items: (data['images'].length > 0) ? data['images'].map<
-                            Widget?>((i) {
+                            Widget>((i) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
@@ -84,7 +79,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   decoration: BoxDecoration(
                                       color: Colors.amber
                                   ),
-                                  child: Image.network(i, fit: BoxFit.fill,)
+                                  child: InkWell(
+                                      onTap: (){
+                                        showDialog(context: context, builder:(_)=>ImageDialog(i));
+                                      },
+                                      child: Image.network(i,fit: BoxFit.fill,))
                               );
                             },
                           );

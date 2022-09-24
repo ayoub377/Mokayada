@@ -20,21 +20,10 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/aji.jpg'),
+              backgroundImage: AssetImage('assets/images/aji.png'),
               radius: 50,
             ),
           ),
-         //  ...(globalConfig.Menu as List).map((item){
-         //
-         //      return ListTile(
-         //     leading: Icon(item['icon']),
-         //     title: Text(item['title']),
-         //     onTap: (){
-         //       Navigator.pushNamed(context, item['route']);
-         //     },
-         //   );
-         // }),
-
           ListTile(
             leading: Icon(Icons.home),
             title: Text('Home'),
