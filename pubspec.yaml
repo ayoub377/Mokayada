@@ -41,6 +41,7 @@ dependencies:
   image_picker: ^0.8.5+3
   google_sign_in: ^5.4.1
   smooth_page_indicator: ^1.0.0+2
+  open_whatsapp: ^0.0.1
   photo_view: ^0.14.0
   flutter:
     sdk: flutter

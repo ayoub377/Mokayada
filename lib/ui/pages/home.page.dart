@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
     } on SocketException catch (_) {
       setState(() {
         ActiveConnection = false;
-        T = "Pas de connexion internet";
       });
     }
   }
@@ -99,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 100,
                 child: Column(
                   children: [
-                    Text(T),
+                    Text("Pas de connexion internet"),
                     ElevatedButton(
                         onPressed: () {
                           CheckUserConnection();
@@ -182,7 +181,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                           context, '/productDetails',
                                           arguments: i);
                                     },
-
                                       child: Container(
                                         width: MediaQuery
                                             .of(context)
@@ -203,30 +201,40 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           8.0),
                                                     ),
                                               (i['images'].length == 0)
-                                                            ? Expanded(child: Image.asset('assets/images/empty.jpg',)) : Expanded(
-                                                              child: Image.network(i['images'][0],
+                                                            ? Expanded(
+                                                  child: Container(
+                                                      width: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width,
+                                                      child: Image.asset('assets/images/empty.jpg',fit: BoxFit.fill,))) : Expanded(
+                                                              child: Container(
+                                                                width: MediaQuery
+                                                                    .of(context)
+                                                                    .size
+                                                                    .width,
+                                                                child: Image.network(i['images'][0],
+                                                                  fit: BoxFit.fill,
                                                           frameBuilder: (context,
-                                                                  child, frame,
-                                                                  isSynchronouslyLoaded) {
-                                                                return child;
+                                                                    child, frame,
+                                                                    isSynchronouslyLoaded) {
+                                                                  return child;
                                                           },
                                                           loadingBuilder: (context,
-                                                                  child,
-                                                                  loadingProgress) {
-                                                                if (loadingProgress ==
-                                                                    null) {
-                                                                  return child;
-                                                                }
-                                                                else {
-                                                                  return const Center(
-                                                                    child: CircularProgressIndicator(),);
-                                                                }
+                                                                    child,
+                                                                    loadingProgress) {
+                                                                  if (loadingProgress ==
+                                                                      null) {
+                                                                    return child;
+                                                                  }
+                                                                  else {
+                                                                    return const Center(
+                                                                      child: CircularProgressIndicator(),);
+                                                                  }
                                                           },
                                                         ),
-                                                            ),
-
-
-                                            ],
+                                                              ),
+                                                            ),],
                                           )
                                       ),
                                   );

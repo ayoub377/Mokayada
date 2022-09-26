@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:open_whatsapp/open_whatsapp.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/dialog_image.dart';
 
@@ -22,7 +23,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     super.initState();
     controller = CarouselController();
   }
-
   void animateToPage(int index)=>controller.animateToPage(index);
 
   @override
@@ -49,7 +49,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ]
                       ),
                     ),
-
                     Card(
                       elevation: 5,
                       child: CarouselSlider(
@@ -100,12 +99,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                       child: AnimatedSmoothIndicator(
                           activeIndex: current, count: data['images'].length,onDotClicked: animateToPage,),
                     ),
-                    if(data['price']!=null)
-                      Container(
+                    (data['price']!='')? Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
                         child: Text(data['price'].toString() + " DH", style: TextStyle(
                             fontStyle: FontStyle.normal, fontSize: 22),),
-                      ),
+                      ):Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: Text("Echange", style: TextStyle(
+                          fontStyle: FontStyle.normal, fontSize: 22),),
+                    ),
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20)
@@ -146,8 +148,15 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                   ]
               ),
-            )
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                FlutterOpenWhatsapp.sendSingleMessage(data['num_tel'], "Bonjour, je suis intéressé par votre annonce");
+              },
+              child: Icon(Icons.whatsapp),
+              backgroundColor: Colors.green,
         )
+    )
     );
   }
 

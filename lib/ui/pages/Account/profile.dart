@@ -42,10 +42,6 @@ class _ProfileState extends State<Profile> {
       body: SizedBox(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Text("Mon Profil",style: TextStyle(fontSize: 30,color: Colors.cyan),),
-            ),
             Row(
               children: [
                 Container(

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:mokayada/ui/widgets/dialog_filter.dart';
 import '../../service/FirebaseService.dart';
 import '../widgets/CustomCard.dart';
+import '../widgets/searchBar.dart';
 
 class CategoryDetails extends StatefulWidget {
   final categoryname;
@@ -13,10 +15,43 @@ class CategoryDetails extends StatefulWidget {
   State<CategoryDetails> createState() => _CategoryDetailsState();
 }
 
+
 class _CategoryDetailsState extends State<CategoryDetails> {
+
+
+
   final FirebaseService _firebaseService = GetIt.I.get<FirebaseService>();
    List<Map<String,dynamic>>? data= [];
    bool isFilter = false;
+   bool isMokayad = false;
+   bool isAchat = false;
+   late SearchBar searchBar;
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      title: new Text(widget.categoryname),
+      actions: [searchBar.getSearchAction(context)],
+    );
+  }
+
+  _CategoryDetailsState(){
+    searchBar = SearchBar(
+        inBar: false,
+        setState: setState,
+        onSubmitted: (String value) {},
+        buildDefaultAppBar: buildAppBar
+    );
+  }
+
+
+
+
+  void refresh() {
+     setState(() {
+       isFilter = !isFilter;
+       data = [];
+     });
+   }
 
   Future<void> GetProductsOfCategory()async {
     var result = await _firebaseService.Get_prods(widget.categoryname);
@@ -30,7 +65,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   Future<void> GetProductsOfCategory_Mokayada()async {
     var result = await _firebaseService.Get_prods_mokayada(widget.categoryname);
     result?.docs.forEach((snapshot) {
-      print(snapshot.data());
       setState((){
         data?.add(snapshot.data());
       });
@@ -40,7 +74,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   Future<void> GetProductsOfCategory_Achat()async {
     var result = await _firebaseService.Get_prods_achat(widget.categoryname);
     result?.docs.forEach((snapshot) {
-      print(data);
       setState((){
         data?.add(snapshot.data());
       });
@@ -63,9 +96,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.categoryname),
-        ),
+        appBar: searchBar.build(context),
         body: SingleChildScrollView(
           child: Column(
                children: [
@@ -74,43 +105,14 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                    child: Container(
                      width: MediaQuery.of(context).size.width,
                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  setState((){
-                                    isFilter = !isFilter;
-                                    data = [];
-                                  });
-                                  await GetProductsOfCategory_Mokayada();
-                                },
-                                child: Text("Mokayada",style: TextStyle(color: Colors.white,fontSize: 12),),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.lightBlueAccent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 100,
-                            child: ElevatedButton(onPressed: () async {
-                              setState((){
-                                isFilter = !isFilter;
-                                data = [];
-                              });
-                              await GetProductsOfCategory_Achat();
-                            }, child: Text("Achat",style: TextStyle(color: Colors.white,fontSize: 12),),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.lightBlueAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),)),
-                          ),
-                        ],
+                       mainAxisAlignment: MainAxisAlignment.end,
+                        children:[
+                          InkWell(
+                             onTap: (){
+                                showDialog(context: context, builder: (context) => DialogFilter(method_achat: GetProductsOfCategory_Achat,method_mokayada: GetProductsOfCategory_Mokayada,notifyParent: refresh,));
+                             } ,
+                              child: Icon(Icons.filter_list_alt)),
+                        ]
                       ),
                      ),
                    ),
