@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_whatsapp/open_whatsapp.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../widgets/dialog_image.dart';
+import '../../widgets/BottomNavBar.dart';
+import '../../widgets/dialog_image.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -33,9 +34,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         .arguments as Map<String, dynamic>;
     return Container(
         child: Scaffold(
-            appBar: AppBar(
-              title: Text("Details produit"),
-            ),
             body: SingleChildScrollView(
               child: Column(
                   children: [
@@ -144,9 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               fontStyle: FontStyle.normal, fontSize: 18),),
                         ],
                       ),
-                    ),
-
-                  ]
+                    ),]
               ),
             ),
             floatingActionButton: FloatingActionButton(
@@ -155,7 +151,8 @@ class _ProductDetailsState extends State<ProductDetails> {
               },
               child: Icon(Icons.whatsapp),
               backgroundColor: Colors.green,
-        )
+        ),
+          bottomNavigationBar: BottomNavBar(),
     )
     );
   }

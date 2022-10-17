@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../service/FirebaseService.dart';
+import '../../widgets/BottomNavBar.dart';
 import 'Forgot.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,9 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
@@ -96,7 +94,11 @@ class _LoginPageState extends State<LoginPage> {
                           alignment: Alignment.topRight,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, ForgotPassword.id);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotPassword(),
+                                ),
+                              );
                             },
                             child: Text(
                               'Forgot Password?',
@@ -152,6 +154,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

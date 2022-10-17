@@ -48,7 +48,6 @@ class _ProductAddFormState extends State<ProductAddForm> {
 
       void ImageSelect() async
       {
-
       XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
       list_images.add(image!);
       setState(() {});
@@ -120,18 +119,12 @@ class _ProductAddFormState extends State<ProductAddForm> {
   Widget build(BuildContext context) {
       if(data_categories == null){
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Ajouter un produit'),
-          ),
           body: Center(
             child: CircularProgressIndicator(),
           ),
         );
       }
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Ajouter un produit'),
-      ),
       body: ModalProgressHUD(
       inAsyncCall: isLoading,
               child: SingleChildScrollView(
@@ -243,21 +236,6 @@ class _ProductAddFormState extends State<ProductAddForm> {
                                               });
                                             },
                                           ),
-                                  // TextFormField(
-                                  //   decoration: InputDecoration(
-                                  //     labelText: 'Ville',
-                                  //
-                                  //   ),
-                                  //   validator: (value) {
-                                  //     if (value == null) {
-                                  //       return 'Please enter some text';
-                                  //     }
-                                  //     setState(() {
-                                  //       price = value;
-                                  //     });
-                                  //     return null;
-                                  //   },
-                                  // ),
                                       TextFormField(
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,

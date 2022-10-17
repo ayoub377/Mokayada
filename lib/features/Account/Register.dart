@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:mokayada/ui/pages/home.page.dart';
+import 'package:mokayada/features/listing/home.page.dart';
 import '../../../service/FirebaseService.dart';
-import 'Done.dart';
+import '../../widgets/BottomNavBar.dart';
 
 
 // ignore: must_be_immutable
@@ -29,9 +29,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -92,9 +89,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 10.0),
                       ],
                     ),
-                    RaisedButton(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      color: Color(0xff447def),
+                    ElevatedButton(
+                      // padding: EdgeInsets.symmetric(vertical: 10.0),
+                      // color: Color(0xff447def),
                       onPressed:(){
                         _firebaseService.handleSignUp(email, password, name).then((value){
                           if(value){
@@ -115,13 +112,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     Row(
                       children: [
                         Expanded(
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(vertical: 5.0),
-                            color: Colors.white,
-                            shape: ContinuousRectangleBorder(
-                              side:
-                              BorderSide(width: 0.5, color: Colors.grey),
-                            ),
+                          child: ElevatedButton(
+                            // padding: EdgeInsets.symmetric(vertical: 5.0),
+                            // color: Colors.white,
+                            // shape: ContinuousRectangleBorder(
+                            //   side:
+                            //   BorderSide(width: 0.5, color: Colors.grey),
+                            // ),
                             onPressed: () {
                               _firebaseService.Google_handle_signIn();
                             },
@@ -168,6 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

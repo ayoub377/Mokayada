@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mokayada/service/FirebaseService.dart';
-import 'package:mokayada/ui/pages/Account/Done.dart';
-import 'package:mokayada/ui/pages/Account/Login.dart';
-import 'package:mokayada/ui/pages/Account/Register.dart';
-import 'package:mokayada/ui/pages/CategoryDetails.dart';
-import 'package:mokayada/ui/pages/ProductAddForm.dart';
-import 'package:mokayada/ui/pages/ProductDetails.dart';
-import 'package:mokayada/ui/pages/home.page.dart';
-import 'package:mokayada/ui/pages/categories.dart';
+import 'package:mokayada/features/listing/CategoryDetails.dart';
+import 'package:mokayada/features/listing/ProductAddForm.dart';
+import 'package:mokayada/features/listing/ProductDetails.dart';
+import 'package:mokayada/features/listing/home.page.dart';
+import 'package:mokayada/features/listing/categories.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mokayada/ui/pages/Account/profile.dart';
+import 'features/Account/Done.dart';
+import 'features/Account/Login.dart';
+import 'features/Account/Register.dart';
+import 'features/Account/profile.dart';
 
 
 GetIt locator = GetIt.instance;

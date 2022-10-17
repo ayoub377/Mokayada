@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:mokayada/ui/widgets/dialog_filter.dart';
+import 'package:mokayada/widgets/dialog_filter.dart';
 import '../../service/FirebaseService.dart';
-import '../widgets/CustomCard.dart';
-import '../widgets/searchBar.dart';
+import '../../widgets/BottomNavBar.dart';
+import '../../widgets/CustomCard.dart';
+import '../../widgets/searchBar.dart';
 
 class CategoryDetails extends StatefulWidget {
   final categoryname;
@@ -130,6 +131,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             ),],
              ),
         ),
+        bottomNavigationBar: BottomNavBar(),
         ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class FirebaseService {
@@ -19,7 +20,6 @@ class FirebaseService {
       final credential = await firebaseAuth.signInWithEmailAndPassword(
           email: email,
           password: password
-
       );
       return true;
     } on FirebaseAuthException catch (e) {
@@ -70,12 +70,7 @@ class FirebaseService {
   }
 
 
-  User? GetProfileInfos() {
-    User? user = firebaseAuth.currentUser;
-    return user;
-  }
-
-  void SignOut() {
+  Future<void> SignOut() async {
     firebaseAuth.signOut();
   }
 
@@ -99,6 +94,20 @@ class FirebaseService {
     }
   }
 
+  Future<void> updateProfile(String name, String email, XFile image) async {
+    User? user = firebaseAuth.currentUser;
+    user!.updateDisplayName(name);
+    user.updateEmail(email);
+    user.updatePhotoURL(image.path);
+    FirebaseFirestore.instance.collection('Users')
+        .doc(user.uid)
+        .update({
+      'name': name,
+      'email': email,
+      'image': image.path,
+    });
+  }
+
 
   Future<QuerySnapshot<Map<String,dynamic>>?> Get_last_five_prods(name) async {
     var last_five_prods = await products.where("category", isEqualTo:name).orderBy('date', descending: true).limit(5).get() as  QuerySnapshot<Map<String,dynamic>>?;
@@ -110,7 +119,6 @@ class FirebaseService {
     return prods;
   }
 
-
   Future<QuerySnapshot<Map<String,dynamic>>?>Get_prods_mokayada(name) async {
     var prods = await products.where("category", isEqualTo:name,).where("isMokayada", isEqualTo: true).get() as QuerySnapshot<Map<String,dynamic>>?;
     return prods;
@@ -120,6 +128,5 @@ class FirebaseService {
     var prods = await products.where("category", isEqualTo:name).where("isMokayada", isEqualTo: false).get() as QuerySnapshot<Map<String,dynamic>>?;
     return prods;
   }
-
 
 }

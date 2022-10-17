@@ -46,9 +46,6 @@ await Future.delayed(Duration(seconds: 5));
   Widget build(BuildContext context) {
     _Wait();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Merci pour votre inscription'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
